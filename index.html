@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mermaid 3D — Architecture Diagram with Icons</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+    }
+    h1 { margin-bottom: 16px; font-size: 18px; color: #e94560; }
+    #diagram-container {
+      width: 100%;
+      max-width: 900px;
+      height: 500px;
+      background: #f4f4f4;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .error { color: #ff8888; padding: 12px; background: #442222; border-radius: 4px; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Architecture Diagram — Icons on 3D Nodes (Cloudcraft-style)</h1>
+  <div id="diagram-container"></div>
+  <div id="error" class="error" style="display:none;"></div>
+
+  <script type="module">
+    import mermaid from 'mermaid';
+    import mermaid3d from 'mermaid-3d';
+
+    // Register icon pack for logos (aws-s3, aws-lambda, aws-rds) — must be before render
+    mermaid.registerIconPacks([
+      {
+        name: 'logos',
+        loader: () =>
+          fetch('https://unpkg.com/@iconify-json/logos@1/icons.json').then((r) => r.json()),
+      },
+    ]);
+
+    mermaid3d.initialize({ theme: 'default', shadows: true });
+
+    const diagram = `architecture-beta
+    group cloud(cloud)[AWS Cloud]
+
+    service s3(logos:aws-s3)[S3 Bucket] in cloud
+    service lambda(logos:aws-lambda)[Lambda Function] in cloud
+    service rds(logos:aws-rds)[Aurora DB] in cloud
+
+    s3:T --> lambda:B
+    lambda:T --> rds:B
+
+    service internet(internet)[Internet]
+    internet --> s3
+
+`;
+
+    const container = document.getElementById('diagram-container');
+    const errorEl = document.getElementById('error');
+
+    try {
+      await mermaid3d.render('arch-diagram', diagram, container);
+    } catch (err) {
+      errorEl.textContent = `Error: ${err.message || err}`;
+      errorEl.style.display = 'block';
+      console.error(err);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+architecture-beta
+group events(events)[Event Bus]
+
+service bus(server)[Event Bus] in events
+
+group producers(producers)[Producers]
+
+service api(server)[API] in producers
+service worker(server)[Worker] in producers
+
+group consumers(consumers)[Consumers]
+
+service notifier(server)[Notifier] in consumers
+service indexer(database)[Indexer] in consumers
+
+api:T -- B:bus
+worker:T -- B:bus
+bus:T -- B:notifier
+bus:T -- B:indexer

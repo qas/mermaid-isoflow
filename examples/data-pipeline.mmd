@@ -1,0 +1,20 @@
+architecture-beta
+group ingest(ingest)[Ingestion]
+
+service kafka(server)[Kafka] in ingest
+service s3(disk)[S3 Raw] in ingest
+
+group process(process)[Processing]
+
+service spark(server)[Spark] in process
+service lambda(server)[Lambda] in process
+
+group store(store)[Storage]
+
+service warehouse(database)[Warehouse] in store
+service analytics(database)[Analytics] in store
+
+kafka:T -- B:spark
+s3:T -- B:lambda
+spark:T -- B:warehouse
+lambda:T -- B:analytics

@@ -1,0 +1,10 @@
+{
+  "name": "mermaid-isoflow",
+  "version": "0.1.0",
+  "description": "Minimal isometric mermaid: icons as 3-sided boxes, lines on floor",
+  "type": "module",
+  "main": "index.mjs",
+  "exports": { ".": "./index.mjs" },
+  "scripts": { "test": "node --test test/" },
+  "peerDependencies": { "mermaid": ">=10.0.0" }
+}

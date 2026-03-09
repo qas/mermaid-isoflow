@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57 80" width="80" height="80" overflow="hidden">
+  <!-- Isometric cube: all 6 faces. Draw order: back first, then front. -->
+  <!-- Bottom (z=0) - light -->
+  <path d="M 0 60 L 28.28 80 L 56.56 60 Z" fill="#60A5FA" stroke="#888" stroke-width="1" stroke-linejoin="bevel"/>
+  <!-- Back (y=0) -->
+  <path d="M 0 60 L 28.28 80 L 28.28 40 L 0 20 Z" fill="#3B82F6" stroke="#888" stroke-width="1" stroke-linejoin="bevel"/>
+  <!-- Left (x=0) -->
+  <path d="M 0 60 L 0 20 L 28.28 40 L 28.28 80 Z" fill="#3B82F6" stroke="#888" stroke-width="1" stroke-linejoin="bevel"/>
+  <!-- Top (z=20) - dark -->
+  <path d="M 0 20 L 28.28 0 L 56.56 20 L 28.28 40 Z" fill="#2563EB" stroke="#888" stroke-width="1" stroke-linejoin="bevel"/>
+  <!-- Right (x=20) - dark -->
+  <path d="M 28.28 40 L 56.56 60 L 56.56 20 L 28.28 0 Z" fill="#2563EB" stroke="#888" stroke-width="1" stroke-linejoin="bevel"/>
+  <!-- Front (y=20) - light -->
+  <path d="M 28.28 40 L 56.56 20 L 56.56 60 L 28.28 80 Z" fill="#60A5FA" stroke="#888" stroke-width="1" stroke-linejoin="bevel"/>
+</svg>

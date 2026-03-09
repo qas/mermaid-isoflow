@@ -1,0 +1,12 @@
+architecture-beta
+group cloud(cloud)[AWS Cloud]
+
+service s3(logos:aws-s3)[S3 Bucket] in cloud
+service lambda(logos:aws-lambda)[Lambda Function] in cloud
+service rds(logos:aws-rds)[Aurora DB] in cloud
+
+s3:T -- B:lambda
+lambda:T -- B:rds
+
+service internet(internet)[Internet]
+internet:B -- T:s3

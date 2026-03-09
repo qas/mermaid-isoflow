@@ -1,0 +1,17 @@
+architecture-beta
+group api(api)[API Layer]
+
+service gateway(server)[API Gateway] in api
+service auth(database)[Auth Service] in api
+
+group services(services)[Services]
+
+service orders(database)[Orders] in services
+service users(database)[Users] in services
+service inventory(disk)[Inventory] in services
+
+gateway:T -- B:orders
+gateway:T -- B:users
+gateway:T -- B:auth
+auth:T -- B:users
+orders:T -- B:inventory

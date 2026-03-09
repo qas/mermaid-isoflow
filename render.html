@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://unpkg.com/mermaid@11/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <div id="out"></div>
+  <script type="module">
+    const params = new URLSearchParams(location.search);
+    const exampleName = params.get('example');
+    const mode = params.get('mode') ?? '2d';
+
+    const DEFAULT_DIAGRAM = `architecture-beta
+    group cloud(cloud)[AWS Cloud]
+
+    service s3(logos:aws-s3)[S3 Bucket] in cloud
+    service lambda(logos:aws-lambda)[Lambda Function] in cloud
+    service rds(logos:aws-rds)[Aurora DB] in cloud
+
+    s3:T -- B:lambda
+    lambda:T -- B:rds
+
+    service internet(internet)[Internet]
+    internet:B -- T:s3
+`;
+
+    async function getDiagram() {
+      if (!exampleName) return DEFAULT_DIAGRAM;
+      const res = await fetch(`/examples/${exampleName}.mmd`);
+      return res.ok ? res.text() : DEFAULT_DIAGRAM;
+    }
+
+    async function run() {
+      if (typeof mermaid === 'undefined') { setTimeout(run, 50); return; }
+      try {
+        const diagram = await getDiagram();
+        mermaid.registerIconPacks([{ name: 'logos', loader: () => fetch('https://unpkg.com/@iconify-json/logos@1/icons.json').then(r => r.json()) }]);
+        mermaid.initialize({ theme: 'base', themeVariables: { background: 'transparent' }, securityLevel: 'loose' });
+        if (mode === '3d') {
+          const isoflow = (await import('./node_modules/mermaid-isoflow/index.mjs')).default;
+          const s3Asset = await fetch('/assets/iso-cube.svg').then(r => r.text());
+          isoflow.initialize({
+            theme: 'base',
+            themeVariables: { background: 'transparent' },
+            iconToAssetMap: { 'aws-s3': s3Asset, 's3': s3Asset },
+          });
+          await isoflow.render('arch', diagram, document.getElementById('out'));
+        } else {
+          const { svg } = await mermaid.render('arch', diagram);
+          document.getElementById('out').innerHTML = svg;
+        }
+      } catch (e) {
+        document.getElementById('out').innerHTML = '<pre style="color:red">' + e.message + '\n' + e.stack + '</pre>';
+      }
+    }
+    run();
+  </script>
+</body>
+</html>
