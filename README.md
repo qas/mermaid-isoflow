@@ -13,6 +13,10 @@ npm run render:3d   # 3D (mermaid-isoflow)
 
 Output: `output-{timestamp}.svg`
 
+### Render script (`scripts/render.mjs`)
+
+Headless render via Puppeteer. Spawns a local HTTP server, loads `render.html` with `?mode=2d` or `?mode=3d`, waits for the diagram SVG, injects flowchart link styles (darker stroke for flowcharts), and writes the SVG to `output-{timestamp}.svg`. Uses the default diagram in `render.html` (AWS architecture). Fails with an error if Mermaid render fails.
+
 ## Examples
 
 **AWS Architecture**

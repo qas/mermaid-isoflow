@@ -32,7 +32,7 @@ function renderDefaultIcon(container, iconSvg, nodeSize, config) {
   const size = config.iconStandingSize ?? DEFAULTS.iconStandingSize;
   const doc = container.ownerDocument;
   const group = doc.createElementNS(SVG_NS, 'g');
-  group.setAttribute('transform', `translate(${center.x}, ${center.y}) ${FACE_MATRIX} scale(${size / DEFAULT_ICON_SIZE})`);
+  group.setAttribute('transform', `translate(${center.x}, ${center.y}) ${FACE_MATRIX} scale(${size / DEFAULT_ICON_SIZE}, -${size / DEFAULT_ICON_SIZE})`);
   const clone = iconSvg.cloneNode(true);
   if (!clone.getAttribute('viewBox')) clone.setAttribute('viewBox', `0 0 ${DEFAULT_ICON_SIZE} ${DEFAULT_ICON_SIZE}`);
   clone.setAttribute('x', -ICON_HALF);
